@@ -1,0 +1,27 @@
+{
+  "name": "LaGripaBot",
+  "version": "1.0.0",
+  "description": "A twitter bot that serves as notifier for the recent word la gripa.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "bot.js"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "keywords": [
+    "twitter",
+    "bot",
+    "javascript",
+    "nodejs"
+  ],
+  "author": "Emerson Novoa",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.17",
+    "twit": "^2.2.11"
+  }
+}
