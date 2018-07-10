@@ -3,15 +3,8 @@ var path = require('path')
 var app     = express()
 var port    = process.env.PORT || 5000
 
-/*express()  
-  //.use(express.static(path.join(__dirname, 'public')))
-  //.set('views', path.join(__dirname, 'views'))
-  //.set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .listen(port, () => console.log(`Listening on ${ port }`))*/
-
 app.get("/", function(req, res) {
-  res.send("Welcome to Node JS on Heroku");
+  res.send("Node JS Bot to search a specific word to reply a comment.");
 });
 
 app.listen(port);
@@ -105,6 +98,10 @@ function searchPhraseOrHashtag(images) {
         for(let i = 0; i < data.statuses.length; i++){
           // Get the tweet Id from the returned data
           let id = { id: data.statuses[i].id_str }
+
+          /*var json = JSON.stringify(response, null, 2);
+          fs.writeFile('tweets.json', json);*/
+
           // Try to Favorite the selected Tweet
           T.post('favorites/create', id, function(err, response){
             // If the favorite fails, log the error message
@@ -117,8 +114,7 @@ function searchPhraseOrHashtag(images) {
 
               let username  = response.user.screen_name;
               let tweetId   = response.id_str;
-              let tweetText = response.text;
-
+              let tweetText = response.text;              
               
               console.log();
               console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`)
@@ -185,16 +181,6 @@ fs.readdir(__dirname + '/images', function(err, files) {
     setInterval(function(){
       searchPhraseOrHashtag(images)
     }, 720*60*1000);
-    //}, 5*60*1000);
+    //}, 1*60*1000);
   }
 });
-
-
-
-// launch the function once
-//searchPhraseOrHashtag()
-
-// run the function every 60 minutes
-/*setInterval(function(){
-  searchPhraseOrHashtag()
-}, 60*60*1000);*/
