@@ -1,10 +1,10 @@
 {
-  "name": "LaGripaBot",
+  "name": "bot-twiter-lagripa",
   "version": "1.0.0",
   "description": "A twitter bot that serves as notifier for the recent word la gripa.",
   "main": "bot.js",
   "scripts": {
-    "start": "bot.js"
+    "start": "node bot.js"
   },
   "repository": {
     "type": "",
@@ -23,5 +23,9 @@
     "express": "^4.16.3",
     "mongoose": "^5.0.17",
     "twit": "^2.2.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/residentghub/bot-twitter-lagripa"
   }
 }

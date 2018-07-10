@@ -1,14 +1,25 @@
 var express = require("express")
+var path = require('path')
 var app     = express()
 var port    = process.env.PORT || 5000
 
-app.listen(port);
+express()  
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .listen(port, () => console.log(`Listening on ${ port }`))
+
+/*app.get("/", function(req, res) {
+  res.send("Welcome to Node JS on Heroku");
+});
+
+app.listen(port);*/
 
 console.log("Bot ready!");
 console.log();
 
-var fs = require('fs'),
-    path = require('path');
+var fs = require('fs')
 
 //const helpers = require('./helpers')
 
@@ -74,7 +85,7 @@ function searchPhraseOrHashtag(images) {
     var params = {
       //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
       q: TWITTER_SEARCH_PHRASE,
-      count: 10,
+      count: 1,
       result_type: 'recent',
       lang: 'es',
       geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
@@ -158,50 +169,6 @@ function searchPhraseOrHashtag(images) {
     })
 
 }
-
-/*function replyTweet(images) {
-
-      let username = 'emersonovoa';
-      let tweetId = '1016139143368323072';                
-
-      /*T.post('statuses/update', {in_reply_to_status_id: tweetId, status: "@" + username + " " + config.text_to_tweet}, function(err, data, response) {
-        console.log("Send comment to: " + username);        
-      });
-
-      console.log('Opening an image...');
-      var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
-      b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-
-      T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-        if (err){
-          console.log('ERROR:');
-          console.log(err);
-        }
-        else{
-          console.log('Image uploaded!');
-          console.log('Now tweeting it...');          
-
-          var status = {
-                in_reply_to_status_id: tweetId,
-                status: "@" + username + " " + config.text_to_tweet,
-                media_ids: new Array(data.media_id_string)
-          };
-
-          T.post('statuses/update', status, function (err, tweet, response){
-
-                if (err) {
-                    reject(err);
-                } else {
-                    console.dir("exit");
-                    //resolve(tweet);
-                }
-
-          });
-          
-        }
-      });
-
-}*/
 
 
 fs.readdir(__dirname + '/images', function(err, files) {
