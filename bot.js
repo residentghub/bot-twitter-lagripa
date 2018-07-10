@@ -123,7 +123,7 @@ function searchPhraseOrHashtag(images) {
               console.log();
               console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`)
 
-              /* Here TODO ALL
+              /* Here TODO ALL */
               console.log('Opening an gif...');
               var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
               b64content = fs.readFileSync(image_path, { encoding: 'base64' });
@@ -155,7 +155,7 @@ function searchPhraseOrHashtag(images) {
                   });
                   
                 }
-              });*/
+              });
 
 
             }
@@ -181,11 +181,11 @@ fs.readdir(__dirname + '/images', function(err, files) {
       images.push(f);
     });
 
-    // run the function every 1 minute
+    // run the function every 12 hrs
     setInterval(function(){
       searchPhraseOrHashtag(images)
-    }, 1*60*1000);
-
+    //}, 720*60*1000);
+    }, 5*60*1000);
   }
 });
 
