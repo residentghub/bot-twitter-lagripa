@@ -4,7 +4,7 @@ var app     = express()
 var port    = process.env.PORT || 5000
 
 app.get("/", function(req, res) {
-  res.send("Node JS Bot to search a specific word to reply a comment.");
+  res.send("Node JS Bot to search a specific word to reply a comment. La Gripa.");
 });
 
 app.listen(port);
@@ -13,11 +13,6 @@ console.log("Bot ready!");
 console.log();
 
 var fs = require('fs')
-
-//const helpers = require('./helpers')
-
-//require('./db/db')
-//const db = require('./db/tweets.controller')
 
 var Twit = require("twit");
 var config = require("./config");
@@ -30,7 +25,6 @@ var T = new Twit(config);
 var config = {    
     text_to_tweet_short: '#TeOdiamosGripa' // short text to tweet
 };
-
 
 function random_from_array(images){
   return images[Math.floor(Math.random() * images.length)];
@@ -78,7 +72,7 @@ function searchPhraseOrHashtag(images) {
     var params = {
       //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
       q: TWITTER_SEARCH_PHRASE,
-      count: 1,
+      count: 12,
       result_type: 'recent',
       lang: 'es',
       geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
@@ -88,19 +82,12 @@ function searchPhraseOrHashtag(images) {
     // Initiate your search using the above paramaters
     T.get('search/tweets', params, function(err, data, response) {
       // If there is no error, proceed
-      if(!err){
-
-        /*db.getUniqueTweets(data.statuses).then((tweets) => {
-          const content = helpers.composeContent(tweets)
-          db.recordUniqueTweets(tweets)*/
+      if(!err){        
 
         // Loop through the returned tweets
         for(let i = 0; i < data.statuses.length; i++){
           // Get the tweet Id from the returned data
-          let id = { id: data.statuses[i].id_str }
-
-          /*var json = JSON.stringify(response, null, 2);
-          fs.writeFile('tweets.json', json);*/
+          let id = { id: data.statuses[i].id_str }          
 
           // Try to Favorite the selected Tweet
           T.post('favorites/create', id, function(err, response){
@@ -177,10 +164,9 @@ fs.readdir(__dirname + '/images', function(err, files) {
       images.push(f);
     });
 
-    // run the function every 12 hrs
+    // run the function every 29 minutos. Heroku's free count condition
     setInterval(function(){
       searchPhraseOrHashtag(images)
-    }, 720*60*1000);
-    //}, 1*60*1000);
+    }, 29*60*1000);    
   }
 });
