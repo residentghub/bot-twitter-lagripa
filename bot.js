@@ -174,7 +174,7 @@ fs.readdir(__dirname + '/images', function(err, files) {
     // run the function every 29 minutos. Heroku's free count condition
     setInterval(function(){
       searchPhraseOrHashtag(images);
-      //http.get('http://salty-springs-39671.herokuapp.com/');
-    }, 29*60*1000);    
+      http.get('https://infinite-depths-92638.herokuapp.com/');
+    }, 29*60*1000);
   }
 });
