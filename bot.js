@@ -78,7 +78,7 @@ function searchPhraseOrHashtag(images) {
     var params = {
       //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
       q: TWITTER_SEARCH_PHRASE,
-      count: 3,
+      count: 1,
       result_type: 'recent',
       lang: 'es',
       geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
@@ -179,6 +179,6 @@ fs.readdir(__dirname + '/images', function(err, files) {
     setInterval(function(){
       searchPhraseOrHashtag(images);
       http.get('http://infinite-depths-92638.herokuapp.com/');
-    }, 25*60*1000);
+    }, 20*60*1000);
   }
 });
