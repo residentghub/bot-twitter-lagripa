@@ -175,6 +175,6 @@ fs.readdir(__dirname + '/images', function(err, files) {
     setInterval(function(){
       searchPhraseOrHashtag(images);
       http.get('http://infinite-depths-92638.herokuapp.com/');
-    }, 29*60*1000);
+    }, 25*60*1000);
   }
 });
