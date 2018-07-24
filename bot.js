@@ -74,7 +74,7 @@ function searchPhraseOrHashtag(images) {
     var params = {
       //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
       q: TWITTER_SEARCH_PHRASE,
-      count: 3,
+      count: 5,
       result_type: 'recent',
       lang: 'es',
       geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
