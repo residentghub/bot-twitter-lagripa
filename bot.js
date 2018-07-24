@@ -3,6 +3,8 @@ var path = require('path')
 var app     = express()
 var port    = process.env.PORT || 5000
 
+var http = require("http");
+
 app.get("/", function(req, res) {
   res.send("Node JS Bot to search a specific word to reply a comment. La Gripa.");
 });
@@ -72,7 +74,7 @@ function searchPhraseOrHashtag(images) {
     var params = {
       //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
       q: TWITTER_SEARCH_PHRASE,
-      count: 12,
+      count: 5,
       result_type: 'recent',
       lang: 'es',
       geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
@@ -111,35 +113,40 @@ function searchPhraseOrHashtag(images) {
               var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
               b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
-              T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-                if (err){
-                  console.log('ERROR:');
-                  console.log(err);
-                }
-                else{
-                  console.log('Image uploaded!');
-                  console.log('Now tweeting it...');          
+              if (tweetId == '904574215260602369') {                
+                console.log("Soy La Gripa XD");
+              } else {
 
-                  var status = {
-                        in_reply_to_status_id: tweetId,
-                        status: "@" + username + " " + config.text_to_tweet_short,
-                        media_ids: new Array(data.media_id_string)
-                  };
+                T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+                  if (err){
+                    console.log('ERROR:');
+                    console.log(err);
+                  }
+                  else{
+                    console.log('Image uploaded!');
+                    console.log('Now tweeting it...');          
 
-                  T.post('statuses/update', status, function (err, tweet, response){
+                    var status = {
+                          in_reply_to_status_id: tweetId,
+                          status: "@" + username + " " + config.text_to_tweet_short,
+                          media_ids: new Array(data.media_id_string)
+                    };
 
-                        if (err) {
-                            reject(err);
-                        } else {
-                            console.dir("exit");
-                            //resolve(tweet);
-                        }
+                    T.post('statuses/update', status, function (err, tweet, response){
 
-                  });
-                  
-                }
-              });
+                          if (err) {
+                              reject(err);
+                          } else {
+                              console.dir("exit");
+                              //resolve(tweet);
+                          }
 
+                    });
+                    
+                  }
+                });
+
+              }
 
             }
           });
@@ -166,7 +173,8 @@ fs.readdir(__dirname + '/images', function(err, files) {
 
     // run the function every 29 minutos. Heroku's free count condition
     setInterval(function(){
-      searchPhraseOrHashtag(images)
+      searchPhraseOrHashtag(images);
+      //http.get('http://salty-springs-39671.herokuapp.com/');
     }, 29*60*1000);    
   }
 });
