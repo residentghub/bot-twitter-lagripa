@@ -68,6 +68,10 @@ function upload_random_image(images){
 
 
 function searchPhraseOrHashtag(images) {
+
+    var d = new Date();
+    console.log("MOMENT : " + d);
+    console.log();
     
     var TWITTER_SEARCH_PHRASE = 'gripa OR resfriado';
     // Set up your search parameters
