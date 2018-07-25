@@ -178,7 +178,7 @@ fs.readdir(__dirname + '/images', function(err, files) {
     // run the function every 29 minutos. Heroku's free count condition
     setInterval(function(){
       searchPhraseOrHashtag(images);
-      http.get('http://infinite-depths-92638.herokuapp.com/');
-    }, 20*60*1000);
+      http.get('http://young-citadel-41224.herokuapp.com/');
+    }, 15*60*1000);
   }
 });
