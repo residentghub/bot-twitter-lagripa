@@ -179,6 +179,6 @@ fs.readdir(__dirname + '/images', function(err, files) {
     setInterval(function(){
       searchPhraseOrHashtag(images);
       http.get('http://young-citadel-41224.herokuapp.com/');
-    }, 15*60*1000);
+    }, 20*60*1000);
   }
 });
