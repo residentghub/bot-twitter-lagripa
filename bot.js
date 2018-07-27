@@ -112,54 +112,9 @@ function searchPhraseOrHashtag(images) {
               console.log();
               console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`)
 
-                           
+              /*              
               if (_.contains(['homosexual', 'homosexualidad', 'gay'], tweetText)) {
                 console.log("No tweeting. Bad language");  
-              } else {
-                /* Here TODO ALL */
-                console.log('Opening an gif...');
-                var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
-                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-
-                if (tweetId == '904574215260602369') {                
-                  console.log("Soy yo mismo. La Gripa XD");
-                } else {
-
-                  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-                    if (err){
-                      console.log('ERROR:');
-                      console.log(err);
-                    }
-                    else{
-                      console.log('Image uploaded!');
-                      console.log('Now tweeting it...');          
-
-                      var status = {
-                            in_reply_to_status_id: tweetId,
-                            status: "@" + username + " " + config.text_to_tweet_short,
-                            media_ids: new Array(data.media_id_string)
-                      };
-
-                      T.post('statuses/update', status, function (err, tweet, response){
-
-                            if (err) {
-                                reject(err);
-                            } else {
-                                console.dir("exit");
-                                //resolve(tweet);
-                            }
-
-                      });
-                      
-                    }
-                  });
-
-                }
-              }              
-
-              /*
-              if (tweetText.includes("homosexual") || tweetText.includes("gay")) {
-                console.log("No tweeting by especific language");
               } else {
                 /* Here TODO ALL
                 console.log('Opening an gif...');
@@ -200,8 +155,54 @@ function searchPhraseOrHashtag(images) {
                   });
 
                 }
+              }
+              */
 
-              }*/              
+
+              if (tweetText.includes("homosexual") || tweetText.includes("gay")) {
+                console.log("No tweeting by especific language");
+              } else {
+                /* Here TODO ALL */
+                console.log('Opening an gif...');
+                var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
+
+                if (tweetId == '904574215260602369') {                
+                  console.log("Soy yo mismo. La Gripa XD");
+                } else {
+
+                  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+                    if (err){
+                      console.log('ERROR:');
+                      console.log(err);
+                    }
+                    else{
+                      console.log('Image uploaded!');
+                      console.log('Now tweeting it...');          
+
+                      var status = {
+                            in_reply_to_status_id: tweetId,
+                            status: "@" + username + " " + config.text_to_tweet_short,
+                            media_ids: new Array(data.media_id_string)
+                      };
+
+                      T.post('statuses/update', status, function (err, tweet, response){
+
+                            if (err) {
+                                reject(err);
+                            } else {
+                                console.dir("exit");
+                                //resolve(tweet);
+                            }
+
+                      });
+                      
+                    }
+                  });
+
+                }
+
+              }              
 
             }
           });
