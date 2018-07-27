@@ -7,8 +7,8 @@
     "start": "node bot.js"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/residentghub/bot-twitter-lagripa"
   },
   "keywords": [
     "twitter",
@@ -22,10 +22,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "mongoose": "^5.0.17",
-    "twit": "^2.2.11"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/residentghub/bot-twitter-lagripa"
+    "twit": "^2.2.11",
+    "underscore": "^1.9.1"
   }
 }
