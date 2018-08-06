@@ -28,61 +28,22 @@ var config = {
     text_to_tweet_short: '#TeOdiamosGripa' // short text to tweet
 };
 
-function random_from_array(images){
-  return images[Math.floor(Math.random() * images.length)];
-}
-
-
-function upload_random_image(images){
-  console.log('Opening an image...');
-  var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
-      b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-
-  console.log('Uploading an image...');
-
-  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-    if (err){
-      console.log('ERROR:');
-      console.log(err);
-    }
-    else{
-      console.log('Image uploaded!');
-      console.log('Now tweeting it...');
-
-      T.post('statuses/update', {
-        media_ids: new Array(data.media_id_string)
-      },
-        function(err, data, response) {
-          if (err){
-            console.log('ERROR:');
-            console.log(err);
-          }
-          else{
-            console.log('Posted an image!');
-          }
-        }
-      );
-    }
-  });
-}
-
-
 function searchPhraseOrHashtag(images) {
 
     var d = new Date();
     console.log("MOMENT : " + d);
     console.log();
-    
+
+    //var TWITTER_SEARCH_PHRASE = 'gripa OR resfriado OR me quiere dar gripa OR gripa y yo en el trabajo OR maldita gripa';
     var TWITTER_SEARCH_PHRASE = 'gripa OR resfriado';
     // Set up your search parameters
-    var params = {
-      //q: TWITTER_SEARCH_PHRASE.toLowerCase(),
+    var params = {      
       q: TWITTER_SEARCH_PHRASE,
       count: 1,
       result_type: 'recent',
       lang: 'es',
-      geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
-      //until: '2018-07-01'
+      //place_country: 'ISO 3166-2:MX',
+      geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad      
     }
 
     // Initiate your search using the above paramaters
@@ -93,8 +54,7 @@ function searchPhraseOrHashtag(images) {
         // Loop through the returned tweets
         for(let i = 0; i < data.statuses.length; i++){
           // Get the tweet Id from the returned data
-          let id = { id: data.statuses[i].id_str }          
-
+          let id = { id: data.statuses[i].id_str }
           // Try to Favorite the selected Tweet
           T.post('favorites/create', id, function(err, response){
             // If the favorite fails, log the error message
@@ -107,107 +67,130 @@ function searchPhraseOrHashtag(images) {
 
               let username  = response.user.screen_name;
               let tweetId   = response.id_str;
-              let tweetText = response.text;                       
-              
+              let tweetText = response.text;
+
+              console.log('Text: ' + tweetText);
               console.log();
-              console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`)
+              console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`);              
 
-              /*              
-              if (_.contains(['homosexual', 'homosexualidad', 'gay'], tweetText)) {
-                console.log("No tweeting. Bad language");  
-              } else {
-                /* Here TODO ALL
-                console.log('Opening an gif...');
-                var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
+              var image_path,
+                  b64content;
+
+              var randomIndexText = "";              
+
+              console.log('Opening an gif...');
+
+              if (tweetText.includes("dar")) {
+                console.log("DAR");
+                console.log();
+
+                var imagesFolderDar = [
+                  path.join(__dirname, '/images/dar/' + 'denada.gif'),
+                  path.join(__dirname, '/images/dar/' + 'lagripateama.gif'),
+                  path.join(__dirname, '/images/dar/' + 'tevoyadar.gif'),
+                  path.join(__dirname, '/images/dar/' + 'tevoyadarcontodo.gif')
+                ];
+
+                var randomIndexImageDar = Math.floor(Math.random()*imagesFolderDar.length);
+                image_path = imagesFolderDar[randomIndexImageDar];
+
                 b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
-                if (tweetId == '904574215260602369') {                
-                  console.log("Soy yo mismo. La Gripa XD");
-                } else {
+              } else if(tweetText.includes("trabajo")) {
+                console.log("TRABAJO");
+                console.log();
+                
+                var imagesFolderTrabajo = [
+                  path.join(__dirname, '/images/trabajo/' + 'alagripalegustatucomentario.gif'),
+                  path.join(__dirname, '/images/trabajo/' + 'arruinaretufin.gif'),
+                  path.join(__dirname, '/images/trabajo/' + 'ganandocomosiempre.gif'),
+                  path.join(__dirname, '/images/trabajo/' + 'notedejaretrabajar.gif'),
+                  path.join(__dirname, '/images/trabajo/' + 'odiamemas.gif')
+                ];
 
-                  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-                    if (err){
-                      console.log('ERROR:');
-                      console.log(err);
-                    }
-                    else{
-                      console.log('Image uploaded!');
-                      console.log('Now tweeting it...');          
+                var randomIndexImageTrabajo = Math.floor(Math.random()*imagesFolderTrabajo.length);
+                image_path = imagesFolderTrabajo[randomIndexImageTrabajo];
 
-                      var status = {
-                            in_reply_to_status_id: tweetId,
-                            status: "@" + username + " " + config.text_to_tweet_short,
-                            media_ids: new Array(data.media_id_string)
-                      };
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });                
 
-                      T.post('statuses/update', status, function (err, tweet, response){
+              } else if (tweetText.includes("maldita")) {
+                console.log("MALDITA");
+                console.log();
+                
+                var imagesFolderMaldita = [
+                  path.join(__dirname, '/images/maldita/' + 'arruinaretusplanes.gif'),
+                  path.join(__dirname, '/images/maldita/' + 'askiusmi.gif'),
+                  path.join(__dirname, '/images/maldita/' + 'odiamemas.gif'),
+                  path.join(__dirname, '/images/maldita/' + 'yoque.gif'),
+                  path.join(__dirname, '/images/maldita/' + 'yotambienteodio.gif')
+                ];
 
-                            if (err) {
-                                reject(err);
-                            } else {
-                                console.dir("exit");
-                                //resolve(tweet);
-                            }
+                var randomIndexImageMaldita = Math.floor(Math.random()*imagesFolderMaldita.length);
+                image_path = imagesFolderMaldita[randomIndexImageMaldita];
 
-                      });
-                      
-                    }
-                  });
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });                
 
-                }
+              } else {
+                console.log("GRIPA");
+                console.log();
+
+                var imagesFolder = [
+                  path.join(__dirname, '/images/' + 'arruinaretufin.gif'),
+                  path.join(__dirname, '/images/' + 'disculpa.gif'),
+                  path.join(__dirname, '/images/' + 'lagripateama.gif'),
+                  path.join(__dirname, '/images/' + 'maquinaescribirinvisible.gif'),
+                  path.join(__dirname, '/images/' + 'noparaqueoque.gif'),
+                  path.join(__dirname, '/images/' + 'porquemeniegas.gif'),
+                  path.join(__dirname, '/images/' + 'quepedo.gif'),
+                  path.join(__dirname, '/images/' + 'tevoyadar.gif'),
+                  path.join(__dirname, '/images/' + 'tevoyadarcontodo.gif')
+                ];
+
+                var randomIndexImage = Math.floor(Math.random()*imagesFolder.length);
+                image_path = imagesFolder[randomIndexImage];
+
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
+                                
               }
-              */
 
+              if (tweetId == '904578457769795584') {
 
-              if (tweetText.includes("homosexual") || tweetText.includes("gay")) {
-                console.log("No tweeting by especific language");
+                console.log("Soy La Gripa XD");
+
               } else {
-                /* Here TODO ALL */
-                console.log('Opening an gif...');
-                var image_path = path.join(__dirname, '/images/' + random_from_array(images)),
-                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
-                if (tweetId == '904574215260602369') {                
-                  console.log("Soy yo mismo. La Gripa XD");
-                } else {
+                T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+                  if (err){
+                    console.log('ERROR:');
+                    console.log(err);
+                  } else {
+                    console.log('Image uploaded!');
+                    console.log('Now tweeting it...');
 
-                  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-                    if (err){
-                      console.log('ERROR:');
-                      console.log(err);
-                    }
-                    else{
-                      console.log('Image uploaded!');
-                      console.log('Now tweeting it...');          
+                    var status = {
+                          in_reply_to_status_id: tweetId,
+                          status: "@" + username + " " + config.text_to_tweet_short,
+                          media_ids: new Array(data.media_id_string)
+                    };
 
-                      var status = {
-                            in_reply_to_status_id: tweetId,
-                            status: "@" + username + " " + config.text_to_tweet_short,
-                            media_ids: new Array(data.media_id_string)
-                      };
+                    T.post('statuses/update', status, function (err, tweet, response){
 
-                      T.post('statuses/update', status, function (err, tweet, response){
+                          if (err) {
+                              reject(err);
+                          } else {
+                              console.dir("exit");
+                          }
 
-                            if (err) {
-                                reject(err);
-                            } else {
-                                console.dir("exit");
-                                //resolve(tweet);
-                            }
+                    });
+                    
+                  }
+                });
 
-                      });
-                      
-                    }
-                  });
-
-                }
-
-              }              
+              }
 
             }
           });
-        } //End for
-      /*}) //End Database*/
+        } //End for      
 
       } else {
         console.log(err);
@@ -216,21 +199,37 @@ function searchPhraseOrHashtag(images) {
 
 }
 
+var walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            if (!--pending) done(null, results);
+          });
+        } else {
+          results.push(file);
+          if (!--pending) done(null, results);          
+        }
+      });
+    });    
 
-fs.readdir(__dirname + '/images', function(err, files) {
-  if (err){
-    console.log(err);
-  }
-  else{
-    var images = [];
-    files.forEach(function(f) {
-      images.push(f);
-    });
+  });
+};
 
-    // run the function every 29 minutos. Heroku's free count condition
-    setInterval(function(){
-      searchPhraseOrHashtag(images);
-      http.get('http://young-citadel-41224.herokuapp.com/');
-    }, 20*60*1000);
-  }
-});
+setInterval(function(){
+      
+  walk(__dirname + '/images', function(err, results) {
+    if (err) throw err;
+    console.log(results);    
+    searchPhraseOrHashtag(results);
+    http.get('http://young-citadel-41224.herokuapp.com/');
+  });
+
+}, 20*60*1000);
