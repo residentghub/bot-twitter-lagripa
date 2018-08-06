@@ -140,8 +140,7 @@ function searchPhraseOrHashtag(images) {
                   path.join(__dirname, '/images/' + 'lagripateama.gif'),
                   path.join(__dirname, '/images/' + 'maquinaescribirinvisible.gif'),
                   path.join(__dirname, '/images/' + 'noparaqueoque.gif'),
-                  path.join(__dirname, '/images/' + 'porquemeniegas.gif'),
-                  path.join(__dirname, '/images/' + 'quepedo.gif'),
+                  path.join(__dirname, '/images/' + 'porquemeniegas.gif'),                  
                   path.join(__dirname, '/images/' + 'tevoyadar.gif'),
                   path.join(__dirname, '/images/' + 'tevoyadarcontodo.gif')
                 ];
