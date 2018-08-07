@@ -158,32 +158,42 @@ function searchPhraseOrHashtag(images) {
 
               } else {
 
-                T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-                  if (err){
-                    console.log('ERROR:');
-                    console.log(err);
-                  } else {
-                    console.log('Image uploaded!');
-                    console.log('Now tweeting it...');
+                /* Hard words */
+                if (tweetText.includes("homosexual") || tweetText.includes("gay") || tweetText.includes("puta")) {
 
-                    var status = {
-                          in_reply_to_status_id: tweetId,
-                          status: "@" + username + " " + config.text_to_tweet_short,
-                          media_ids: new Array(data.media_id_string)
-                    };
+                  console.log("Hard words on tweet. Nothing to post.");
+                  console.dir("exit");
 
-                    T.post('statuses/update', status, function (err, tweet, response){
+                } else {
 
-                          if (err) {
-                              reject(err);
-                          } else {
-                              console.dir("exit");
-                          }
+                  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+                    if (err){
+                      console.log('ERROR:');
+                      console.log(err);
+                    } else {
+                      console.log('Image uploaded!');
+                      console.log('Now tweeting it...');
 
-                    });
-                    
-                  }
-                });
+                      var status = {
+                            in_reply_to_status_id: tweetId,
+                            status: "@" + username + " " + config.text_to_tweet_short,
+                            media_ids: new Array(data.media_id_string)
+                      };
+
+                      T.post('statuses/update', status, function (err, tweet, response){
+
+                            if (err) {
+                                reject(err);
+                            } else {
+                                console.dir("exit");
+                            }
+
+                      });
+                      
+                    }
+                  });
+
+                }                
 
               }
 
