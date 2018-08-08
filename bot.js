@@ -42,8 +42,9 @@ function searchPhraseOrHashtag(images) {
       count: 1,
       result_type: 'recent',
       lang: 'es',
-      //place_country: 'ISO 3166-2:MX',
-      geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad      
+      //place_country: 'ISO 3166-2:MX',      
+      //geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
+      geocode: '20.5436742,-103.8174845,1000km',
     }
 
     // Initiate your search using the above paramaters
