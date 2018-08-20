@@ -24,7 +24,7 @@ console.log();
 
 var T = new Twit(config);
 
-var config = {    
+var config = {
     text_to_tweet_short: '#TeOdiamosGripa' // short text to tweet
 };
 
@@ -37,12 +37,12 @@ function searchPhraseOrHashtag(images) {
     //var TWITTER_SEARCH_PHRASE = 'gripa OR resfriado OR me quiere dar gripa OR gripa y yo en el trabajo OR maldita gripa';
     var TWITTER_SEARCH_PHRASE = 'gripa OR resfriado';
     // Set up your search parameters
-    var params = {      
+    var params = {
       q: TWITTER_SEARCH_PHRASE,
       count: 1,
       result_type: 'recent',
       lang: 'es',
-      //place_country: 'ISO 3166-2:MX',      
+      //place_country: 'ISO 3166-2:MX',
       //geocode: '19.3910036,-99.2840424,1000km', //Comentar para hacer pruebas de proximidad
       geocode: '20.5436742,-103.8174845,1000km',
     }
@@ -50,7 +50,7 @@ function searchPhraseOrHashtag(images) {
     // Initiate your search using the above paramaters
     T.get('search/tweets', params, function(err, data, response) {
       // If there is no error, proceed
-      if(!err){        
+      if(!err){
 
         // Loop through the returned tweets
         for(let i = 0; i < data.statuses.length; i++){
@@ -72,12 +72,12 @@ function searchPhraseOrHashtag(images) {
 
               console.log('Text: ' + tweetText);
               console.log();
-              console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`);              
+              console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`);
 
               var image_path,
                   b64content;
 
-              var randomIndexText = "";              
+              var randomIndexText = "";
 
               console.log('Opening an gif...');
 
@@ -112,7 +112,7 @@ function searchPhraseOrHashtag(images) {
                 var randomIndexImageTrabajo = Math.floor(Math.random()*imagesFolderTrabajo.length);
                 image_path = imagesFolderTrabajo[randomIndexImageTrabajo];
 
-                b64content = fs.readFileSync(image_path, { encoding: 'base64' });                
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
               } else if (tweetText.includes("maldita")) {
                 console.log("MALDITA");
@@ -129,7 +129,7 @@ function searchPhraseOrHashtag(images) {
                 var randomIndexImageMaldita = Math.floor(Math.random()*imagesFolderMaldita.length);
                 image_path = imagesFolderMaldita[randomIndexImageMaldita];
 
-                b64content = fs.readFileSync(image_path, { encoding: 'base64' });                
+                b64content = fs.readFileSync(image_path, { encoding: 'base64' });
 
               } else {
                 console.log("GRIPA");
@@ -141,7 +141,7 @@ function searchPhraseOrHashtag(images) {
                   path.join(__dirname, '/images/' + 'lagripateama.gif'),
                   path.join(__dirname, '/images/' + 'maquinaescribirinvisible.gif'),
                   path.join(__dirname, '/images/' + 'noparaqueoque.gif'),
-                  path.join(__dirname, '/images/' + 'porquemeniegas.gif'),                  
+                  path.join(__dirname, '/images/' + 'porquemeniegas.gif'),           
                   path.join(__dirname, '/images/' + 'tevoyadar.gif'),
                   path.join(__dirname, '/images/' + 'tevoyadarcontodo.gif')
                 ];
@@ -150,12 +150,13 @@ function searchPhraseOrHashtag(images) {
                 image_path = imagesFolder[randomIndexImage];
 
                 b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-                                
+
               }
 
               if (tweetId == '904578457769795584') {
 
                 console.log("Soy La Gripa XD");
+                console.dir("exit");
 
               } else {
 
@@ -190,17 +191,17 @@ function searchPhraseOrHashtag(images) {
                             }
 
                       });
-                      
+
                     }
                   });
 
-                }                
+                }
 
               }
 
             }
           });
-        } //End for      
+        } //End for
 
       } else {
         console.log(err);
@@ -225,19 +226,19 @@ var walk = function(dir, done) {
           });
         } else {
           results.push(file);
-          if (!--pending) done(null, results);          
+          if (!--pending) done(null, results);
         }
       });
-    });    
+    });
 
   });
 };
 
 setInterval(function(){
-      
+
   walk(__dirname + '/images', function(err, results) {
     if (err) throw err;
-    console.log(results);    
+    console.log(results);
     searchPhraseOrHashtag(results);
     http.get('http://young-citadel-41224.herokuapp.com/');
   });
